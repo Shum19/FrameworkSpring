@@ -15,7 +15,8 @@
             </tr>
             <tr th:each="account:${accounts}">
                 <td th:text="${account.nameOfSite}"></td>
-                <td><a th:href="${account.fullWebAddress}" th:text="${account.fullWebAddress}"></a></td>
+                <!--th:@{'https://'+ ${account.fullWebAddress}} строка конкатенируется с переменной и в данном примере будет переходить на внешний сайт -->
+                <td><a th:href="@{'https://'+${account.fullWebAddress}}" th:text="${account.fullWebAddress}"></a></td>
                 <td th:text="${account.login}"></td>
                 <td th:text="${account.password}"></td>
             </tr>
