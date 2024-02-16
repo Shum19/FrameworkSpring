@@ -2,6 +2,13 @@ package fifth.hometask.SemFifthHomeTask.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
 /**Структура задачи(класс Task):
  - ID (автоинкрементное)(тип Long)
  - Описание (не может быть пустым)(тип String)
@@ -23,6 +30,10 @@ public class Task {
     private String nameTask;
     @Column(nullable = false)
     private String  status = TaskStatus.NOT_STARTED.getStatus();
+    @Column
+    private LocalDate localDate = LocalDate.now();
+    @Column
+    private String localTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
 }
 

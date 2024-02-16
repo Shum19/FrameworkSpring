@@ -7,6 +7,6 @@ public class Main {
     public static void main(String[] args) {
         Task task = new Task();
         task.setNameTask("Зарядка");
-//        System.out.println(task.getStatus().getStatus());
+        System.out.println(task);
     }
 }
