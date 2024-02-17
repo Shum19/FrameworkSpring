@@ -5,15 +5,23 @@
         <title>Ricky&Morty</title>
     </head>
     <body>
-        <div th:each="character : ${characters.info}">
-            <p th:text="${character}"></p>
+        <div th:each="info : ${characters.info}">
+            <p th:text="@{'Total pages ' + ${info.count}}"></p>
+            <button type="submit" ><a th:href="${info.next}">Next</a></button>
             </br>
-            <teble th:each="result : ${characters.results}">
+            <table th:each="result : ${characters.results}">
                 <td>
-                <img th:src="${result.image}">
+                    <td>
+                        <img th:src="${result.image}">
+                    <td>
+                    <td>
+                        <p th:text="@{'ID = ' + ${result.id}}"></p>
+                        <p th:text="${result.name}"></p>
+                        <p th:text="@{${result.status} + ' - ' + ${result.species}}"></p>
+                        <p th:text="@{'Gender - ' + ${result.gender}}"></p>
+                    </td>
                 </td>
-            </teble>
+            </table>
         </div>
-
     </body>
 </html>
