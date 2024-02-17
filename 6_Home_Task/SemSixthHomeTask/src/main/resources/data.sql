@@ -1,0 +1,2 @@
+INSERT INTO notes_Table (title, note, date_time) VALUES('ДЗ', 'разобраться с api ricky and morty', CURRENT_DATE);
+INSERT INTO notes_Table (title, note, date_time) VALUES ('Rest API', 'Не могу понять куда будут передаваться параметры такие как id у клиент приложения. Прошу вас продемонстрировать реальную связь клиент-приложения через API', CURRENT_DATE);
