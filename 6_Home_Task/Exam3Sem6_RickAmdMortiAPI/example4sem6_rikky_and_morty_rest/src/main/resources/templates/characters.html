@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Ricky&Morty</title>
+    </head>
+    <body>
+        <div th:each="character : ${characters.info}">
+            <p th:text="${character}"></p>
+            </br>
+            <teble th:each="result : ${characters.results}">
+                <td>
+                <img th:src="${result.image}">
+                </td>
+            </teble>
+        </div>
+
+    </body>
+</html>
