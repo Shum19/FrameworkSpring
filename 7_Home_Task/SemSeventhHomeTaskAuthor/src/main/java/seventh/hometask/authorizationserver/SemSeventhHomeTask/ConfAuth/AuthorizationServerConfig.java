@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -49,7 +50,7 @@ public class AuthorizationServerConfig {
                         .clientName("admin")
                         .clientId("client")
                         .clientSecret("secret")
-                        .redirectUri("http://localhost:9000/")
+                        .redirectUri("http://localhost:8000/")
                         .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                         .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
@@ -59,7 +60,7 @@ public class AuthorizationServerConfig {
 
     @Bean
     PasswordEncoder encoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return NoOpPasswordEncoder.getInstance(); // PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
@@ -71,7 +72,8 @@ public class AuthorizationServerConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
-                        .defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/admin", true)
+                        .defaultSuccessUrl("/index", true)
                         .permitAll())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/"));
