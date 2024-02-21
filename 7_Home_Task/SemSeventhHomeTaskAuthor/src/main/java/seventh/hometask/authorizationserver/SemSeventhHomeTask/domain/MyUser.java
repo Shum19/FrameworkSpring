@@ -3,10 +3,11 @@ package seventh.hometask.authorizationserver.SemSeventhHomeTask.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @Entity
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "users")
 public class MyUser {
     @Id

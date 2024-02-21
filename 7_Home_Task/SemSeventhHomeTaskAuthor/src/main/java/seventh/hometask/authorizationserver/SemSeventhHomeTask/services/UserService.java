@@ -9,7 +9,6 @@ import seventh.hometask.authorizationserver.SemSeventhHomeTask.UserRepo.UserRepo
 import java.util.List;
 
 @Service
-
 public class UserService {
     @Autowired
     UserRepo userRepo;
