@@ -2,10 +2,9 @@ package seventh.hometask.authorizationserver.SemSeventhHomeTask.ConfAuth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -13,9 +12,8 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 
 import java.util.UUID;
@@ -50,7 +48,7 @@ public class AuthorizationServerConfig {
                         .clientName("admin")
                         .clientId("client")
                         .clientSecret("secret")
-                        .redirectUri("http://localhost:8000/")
+                        .redirectUri("http://localhost:9091/")
                         .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                         .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
@@ -64,7 +62,7 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChainUser (HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers( "/index").hasAnyRole("USER")
@@ -72,11 +70,12 @@ public class AuthorizationServerConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
-                        .defaultSuccessUrl("/admin", true)
-                        .defaultSuccessUrl("/index", true)
-                        .permitAll())
+
+                        .defaultSuccessUrl("/")
+                        )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/"));
+
         return http.build();
         }
 }
