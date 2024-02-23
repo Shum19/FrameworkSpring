@@ -41,7 +41,7 @@ public class AuthorizationServerConfig {
         RegisteredClient registeredClient = RegisteredClient.withId("test-client-id")
                                                                 .clientName("Test Client")
                                                                 .clientId("test-client")
-                                                                .clientSecret("{noop}test-client")
+                                                                .clientSecret("test-client")
                                                                 .redirectUri("http://localhost:7000/index")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
