@@ -8,15 +8,15 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Entity
 @RequiredArgsConstructor
-//@Table(name = "users")
+@Table(name = "users")
 public class MyUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "user_name")
+    @Column
     private String name;
-    @Column(name = "password")
+    @Column
     private String password;
-    @Column(name = "role")
+    @Column
     private String role;
 }
