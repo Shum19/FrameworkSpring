@@ -1,4 +1,4 @@
-package seventh.hometask.clientserver.SemSeventhHomeTask.web;
+package seventh.hometask.clientserver.SemSeventhHomeTask.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,27 +22,28 @@ public class AuthorizationController {
     private OAuth2AuthorizedClientService auth2AuthorizedClientService;
 
 
+
     @GetMapping
     public String getCat(Model model, Principal principal) {
         // форма запроса
         RestTemplate template = new RestTemplate();
         // Получение access токена
         String accessToken = auth2AuthorizedClientService
-                .loadAuthorizedClient("reg-client", principal.getName())
+                .loadAuthorizedClient("Test Client", principal.getName())
                 .getAccessToken().getTokenValue();
         // Создаем заголовок и помещаем в него токен авторизации
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Authorization", "Bearer " + accessToken);
 
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-        // Отправляем запрос
-        ResponseEntity<byte[]> response =
-                template.exchange("http://localhost:8081/cat",
-                        HttpMethod.GET, entity, byte[].class);
-        // Преобразование изображения
-        String base64Image = Base64.getEncoder().encodeToString(response.getBody());
-
-        model.addAttribute("cat",base64Image);
+//        // Отправляем запрос
+//        ResponseEntity<byte[]> response =
+//                template.exchange("http://localhost:8081/cat",
+//                        HttpMethod.GET, entity, byte[].class);
+//        // Преобразование изображения
+//        String base64Image = Base64.getEncoder().encodeToString(response.getBody());
+//
+//        model.addAttribute("cat",base64Image);
 
         return "cat-page";
     }

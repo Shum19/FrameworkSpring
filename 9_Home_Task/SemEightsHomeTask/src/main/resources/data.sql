@@ -1,0 +1,1 @@
+INSERT INTO my_user (name, email) VALUES ('Ivan', 'ivan@mail.org');

@@ -1,0 +1,29 @@
+server:
+  port: 8500
+spring:
+  application:
+    name: gateway
+
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: MyUsers
+#          uri: http://localhost:8000
+#          predicate:
+#            - Path=/users/**
+#
+#        - id: Accounts
+#          uri: http://localhost:7000
+#          predicates:
+#            - Path=/accounts/**
+  cloud:
+    gateway:
+      routes:
+        - id: MyUsers
+          uri: http://localhost:8000/
+          predicates:
+            - Path=/users/**
+        - id: Accounts
+          uri: http://localhost:7000/
+          predicates:
+            - Path=/**

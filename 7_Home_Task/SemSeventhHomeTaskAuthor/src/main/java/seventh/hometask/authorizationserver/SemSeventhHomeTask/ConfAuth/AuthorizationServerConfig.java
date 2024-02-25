@@ -1,5 +1,9 @@
 package seventh.hometask.authorizationserver.SemSeventhHomeTask.ConfAuth;
 
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +13,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -18,6 +23,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
 
@@ -29,23 +38,24 @@ import java.util.UUID;
 public class AuthorizationServerConfig {
 
     private final AuthorizationSecurityProperty authorizationServerProperties;
-    @Bean
-    public SecurityFilterChain authSecurityFilterChain(HttpSecurity http)throws Exception{
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        http.exceptionHandling(exception ->
-                exception.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")));
-        return http.build();
-    }
+//    @Bean
+//    public SecurityFilterChain authSecurityFilterChain(HttpSecurity http)throws Exception{
+//        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+//        http.exceptionHandling(exception ->
+//                exception.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")));
+//        return http.build();
+//    }
     @Bean
     public RegisteredClientRepository registeredClientRepository(){
         RegisteredClient registeredClient = RegisteredClient.withId("test-client-id")
                                                                 .clientName("Test Client")
                                                                 .clientId("test-client")
                                                                 .clientSecret("test-client")
-                                                                .redirectUri("http://localhost:7000/index")
+                                                                .redirectUri("http://127.0.0.1:7000")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .build();
 
         return new InMemoryRegisteredClientRepository(registeredClient);
@@ -56,6 +66,39 @@ public class AuthorizationServerConfig {
         System.out.printf("Print for debug: %s\n",authorizationServerProperties.getIssuerUrl());
         return AuthorizationServerSettings.builder().issuer(authorizationServerProperties.getIssuerUrl()).build();
     }
+
+
+    @Bean
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
+
+    @Bean
+    public JWKSource<SecurityContext> jwkSource() {
+        RSAKey rsaKey = generateRsa();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+    }
+
+    public static RSAKey generateRsa() {
+        KeyPair keyPair = generateRsaKey();
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+        return new RSAKey.Builder(publicKey).privateKey(privateKey).keyID(UUID.randomUUID().toString()).build();
+    }
+
+    static KeyPair generateRsaKey() {
+        KeyPair keyPair;
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            keyPair = keyPairGenerator.generateKeyPair();
+        } catch (Exception ex) {
+            throw new IllegalStateException(ex);
+        }
+        return keyPair;
+    }
+
 
 
 //    @Bean
