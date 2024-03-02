@@ -1,0 +1,6 @@
+2024-03-01 09:02:05.542413+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS" not found (this database is empty); SQL statement:
+select a1_0.id,a1_0.full_web_address,a1_0.login,a1_0.name_of_site,a1_0.password from accounts a1_0 [42104-224]
+2024-03-01 09:04:04.912429+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS" not found (this database is empty); SQL statement:
+insert into accounts (full_web_address,login,name_of_site,password,id) values (?,?,?,?,default) [42104-224]

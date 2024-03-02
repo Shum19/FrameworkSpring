@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:text="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Accounts</title>
+    </head>
+    <body>
+        <h1>All Accounts</h1>
+        <table>
+            <tr>
+                <th>Name Of site |</th>
+                <th>Full Web address |</th>
+                <th>Login |</th>
+                <th>Password |</th>
+            </tr>
+            <tr th:each="account:${accounts}">
+                <td th:text="${account.nameOfSite}"></td>
+                <!--th:@{'https://'+ ${account.fullWebAddress}} строка конкатенируется с переменной и в данном примере будет переходить на внешний сайт -->
+                <td><a th:href="@{'https://'+${account.fullWebAddress}}" th:text="${account.fullWebAddress}"></a></td>
+                <td th:text="${account.login}"></td>
+                <td th:text="${account.password}"></td>
+            </tr>
+        </table>
+        <a href="/create-account"><button type="submit">Add account</button></a>
+
+    </body>
+</html>
