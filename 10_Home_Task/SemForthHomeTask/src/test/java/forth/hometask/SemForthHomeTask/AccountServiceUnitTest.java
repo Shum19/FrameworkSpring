@@ -50,7 +50,7 @@ public class AccountServiceUnitTest {
 //        3
         accountService.deleteByNameOfSite("gmail");
 
-//        Проверяем что метод save в interface AccountRepo был вызван 3 раз
+//        Проверяем что метод delete в interface AccountRepo был вызван 3 раз
         verify(accountRepo, times(3)).deleteByNameOfSite("gmail");
     }
 }
