@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+      <meta charset="UTF-8">
+      <title>Form</title>
+  </head>
+  <body>
+    <h1>Fill all fields to add account</h1>
+    <form action="#" th:action="@{/create-account}" th:object="${account}" method="post">
+        <label for="nameOfSite">Name Of site</label>
+        <input type="text" th:field="*{nameOfSite}" id="nameOfSite" placeholder="example: gmail">
+        </br>
+        <label for="fullWebAddress">Full Web address </label>
+        <input type="text" th:field="*{fullWebAddress}" id="fullWebAddress" placeholder="example: mail.google.com">
+        </br>
+        <label for="login">Login</label>
+        <input type="text" th:field="*{login}" id="login" placeholder="example: Ivanov123@gmail.com">
+        <br>
+        <label for="password">Password</label>
+        <input type="text" th:field="*{password}" id="password" placeholder="example: 1234qwertY!">
+        </br>
+        <button type="submit">ADD</button>
+    </form>
+
+
+
+
+  </body>
+</html>
